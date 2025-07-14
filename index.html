@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mundo dos Games</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #121212; color: #fff; scroll-behavior: smooth; }
+    header, footer { background: #1a1a1a; padding: 20px; text-align: center; }
+    nav { background: #222; padding: 10px; position: sticky; top: 0; z-index: 999; text-align: center; }
+    nav a { margin: 0 15px; color: #00e5ff; text-decoration: none; font-weight: bold; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; padding: 20px; }
+    .ico { cursor: pointer; text-align: center; }
+    .ico img { width: 60px; height: 60px; object-fit: cover; border-radius: 12px; }
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             background: rgba(0,0,0,0.9); display: none; flex-direction: column;
+             align-items: center; overflow: auto; padding: 20px; }
+    .modal div { background: #222; padding: 20px; border-radius: 8px; width: 100%; max-width: 500px; }
+    .close { margin-left: auto; cursor: pointer; font-size: 1.2rem; }
+    .adslot { width: 100%; height: 90px; background: #333; margin: 20px 0; text-align: center; line-height: 90px; }
+    .btn { display: inline-block; padding: 12px 20px; background: #00e5ff; color: #121212;
+           margin-top: 10px; border: none; border-radius: 6px; text-decoration: none; font-weight: bold; }
+    section { padding: 20px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Mundo dos Games</h1>
+  <p>Explore jogos populares e baixe direto da Play Store!</p>
+</header>
+
+<nav>
+  <a href="#home">Início</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#contato">Contato</a>
+  <a href="#privacidade">Privacidade</a>
+</nav>
+
+<section id="home">
+  <h2 style="text-align:center">🎮 Jogos em Destaque</h2>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="sobre">
+  <h2>Sobre o Mundo dos Games</h2>
+  <p>O Mundo dos Games é um site dedicado aos fãs de jogos mobile. Aqui você encontra os títulos mais populares da Google Play, com descrições, curiosidades e links para baixar os jogos diretamente. Nosso objetivo é manter você informado e entretido!</p>
+</section>
+
+<section id="contato">
+  <h2>Fale Conosco</h2>
+  <p>Tem sugestões, parcerias ou encontrou algum erro? Fale com a gente pelo e-mail:</p>
+  <p><strong>michelnajdi14@gmail.com</strong></p>
+</section>
+
+<section id="privacidade">
+  <h2>Política de Privacidade</h2>
+  <p>Utilizamos cookies e serviços de terceiros como o Google AdSense para exibir anúncios personalizados. Ao navegar neste site, você concorda com o uso dessas tecnologias. Para mais informações, consulte a <a href="https://policies.google.com/privacy" target="_blank">Política de Privacidade do Google</a>.</p>
+</section>
+
+<!-- Modal de Jogo -->
+<div class="modal" id="modal">
+  <div>
+    <span class="close" id="close">✖</span>
+    <div class="adslot">🔳 Espaço para anúncio AdSense</div>
+    <h2 id="title"></h2>
+    <p id="info"></p>
+    <a id="play" class="btn" target="_blank">🔗 Baixar na Play Store</a>
+  </div>
+</div>
+
+<footer>© 2025 Mundo dos Games</footer>
+
+<script>
+// Lista de jogos (adicione até 200+ se quiser)
+const games = [
+  {
+    name: "Free Fire",
+    icon: "https://play-lh.googleusercontent.com/nFTOODFSGICBMaEE3f6SPG3duDCn9fq9WakA7hH0tD1ArXEOzXZDJ-9ik2pMI0EFC1s",
+    info: "Free Fire é um battle royale rápido com combates intensos e gráficos otimizados para celular.",
+    link: "https://play.google.com/store/apps/details?id=com.dts.freefireth"
+  },
+  {
+    name: "PUBG Mobile",
+    icon: "https://play-lh.googleusercontent.com/yjB_MkZJPmNvFyYM7CyXbUOO9LMkGNULSgx9ACMFUWe2ROAMj2S3nzyE5pp2vRZoog",
+    info: "PUBG Mobile é um jogo de tiro realista com mapas grandes e jogabilidade estratégica.",
+    link: "https://play.google.com/store/apps/details?id=com.tencent.ig"
+  },
+  {
+    name: "Roblox",
+    icon: "https://play-lh.googleusercontent.com/dEbWYxEZxzDRL4LsAA7ShD35Md8aIG9mBQXkUuHg4F1uOmcncRY0IRrxQ6Xt8-U4Zg",
+    info: "Roblox é uma plataforma de jogos criada por usuários, com milhões de mundos diferentes para explorar.",
+    link: "https://play.google.com/store/apps/details?id=com.roblox.client"
+  },
+  {
+    name: "Mobile Legends",
+    icon: "https://play-lh.googleusercontent.com/0I9Z5qKIXQCP5-1y8DCNskIX0sTLRtOmRhnQ0cnjB-c3NKcyIyrC1AYdAbEjOfvTI7A",
+    info: "Um MOBA 5v5 de ritmo rápido onde você combate jogadores reais em arenas épicas.",
+    link: "https://play.google.com/store/apps/details?id=com.mobile.legends"
+  }
+  // ⚠️ Adicione mais jogos aqui usando o mesmo formato
+];
+
+const grid = document.getElementById("grid");
+games.forEach((g, i) => {
+  const d = document.createElement("div");
+  d.className = "ico";
+  d.innerHTML = `<img src="${g.icon}" alt="${g.name}"><br>${g.name}`;
+  d.addEventListener("click", () => openModal(i));
+  grid.appendChild(d);
+});
+
+const modal = document.getElementById("modal");
+const close = document.getElementById("close");
+const title = document.getElementById("title");
+const info = document.getElementById("info");
+const play = document.getElementById("play");
+
+function openModal(i) {
+  const g = games[i];
+  title.textContent = g.name;
+  info.textContent = g.info;
+  play.href = g.link;
+  modal.style.display = "flex";
+}
+
+close.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+</script>
+
+</body>
+</html>
